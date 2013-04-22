@@ -1,0 +1,13 @@
+93abd8ea333d2a456ba3fa2c9531cb3f *DESCRIPTION
+df390c53434517b304ac5db487184641 *NAMESPACE
+029937be8ba01e5bbffda4c1ea733a30 *R/GoFKernel.r
+5e489f88ea328ac2b81f91b349dbfc23 *data/risk76.1929.rda
+5232e717ccd5e081ca21f90aa37bec33 *man/GoFKernel-package.Rd
+c366878d78189234da6a341424088f08 *man/area.between.Rd
+f4cc1c9df1def6b515d1b6937343872f *man/density.reflected.Rd
+a7f3e1c5935efe28a542962ce75dbe3a *man/dgeometric.test.Rd
+b41282ba4dc7418763f58b9cee5b8b8c *man/fan.test.Rd
+05ac40ba5a4974af10f2da0640617c73 *man/inverse.Rd
+ec6abf113b1e847f7de671f518f64ce2 *man/random.function.Rd
+736ff503c52e467dad556e039b16cab5 *man/risk76.1929.Rd
+717e7bac58e83f3d28e5df0958bf3449 *man/support.facto.Rd
