@@ -18,7 +18,7 @@ Under the null hypotheses of uniform distribution of date of birth and date of
 migration, this time exposed to risk is distributed as a f(x)=2-2x 0<x<1.
 }
 \source{
-Own elaboration from data available in \href{http://www.ine.es}{www.ine.es}
+Own elaboration from data available in \code{www.ine.es}
 }
 
 \examples{

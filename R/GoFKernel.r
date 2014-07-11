@@ -1,6 +1,6 @@
-# GoFKernel version 1.0
-# March 2012 - Jose M. Pavia
-# Tested in R version 2.15.3
+# GoFKernel version 2.0-1
+# July 2014 - Jose M. Pavia
+# Tested in R version 3.1.0
 # The  fan.test function depends on KernSmooth package
 #
 # FUNCTIONS:
@@ -12,19 +12,19 @@
 #      dgeometric.test
 #      fan.test
 #
-#      inverse: computes the inverse function of any (cumulative) function
-#      random.function: generates draws of any random variable given its distribution
-#      area.between: calculates the area between a theoretical density and a kernel estimate
-#      support.facto: computes the numerical limits of a density with infinite support
-#      density.reflected: computes a kernel estimate using reflection in the borders
-#      dgeometric.test: test to geometrically compare a theoretical distribution with an empirical one
+#      inverse: computes the inverse function of any (cumulative distribution) function.
+#      random.function: generates draws of any random variable given its distribution function.
+#      area.between: calculates the area between a theoretical density and a kernel estimate.
+#      support.facto: computes the numerical limits of a density with infinite support.
+#      density.reflected: computes a kernel estimate using reflection in the borders.
+#      dgeometric.test: test to  compare geometrically a theoretical distribution with an empirical kernel density one.
 #      fan.test: Implementation of the Fan's test.
 #
 # DATA:
 #      risk76.1929
 #      A vector containing the time exposed to the risk of death with 76 years during
 #      2006 for the 2006 registered Spanish immigrants born in 1929.
-#      Under the null hypotheses of uniform distribution of date of birth and date of
+#      Under the null hypothesis of uniform distribution of date of birth and date of
 #      migration, this time exposed to risk is distributed as a f(x)=2-2x 0<x<1.
 
 
@@ -140,7 +140,7 @@ support.facto <- function(f,lower=-Inf,upper=Inf){
 
 
 area.between <- function(f, kernel.density, lower=-Inf, upper=Inf){
-# DESCRIPTION: function to calculate the area entre etween a theoretical density and
+# DESCRIPTION: function to calculate the area between a theoretical density and
 #              a kernel empirical estimate in a given interval
 #
 # INPUTS:
@@ -160,7 +160,7 @@ area.between <- function(f, kernel.density, lower=-Inf, upper=Inf){
 #................................................
 
 
-density.reflected <- function(x,lower=-Inf, upper=Inf,...){
+density.reflected <- function(x, lower=-Inf, upper=Inf, ...){
 # DESCRIPTION: function to compute from a random sample of data in an interval
 #              a kernel estimate using reflection in the borders
 #
@@ -168,20 +168,32 @@ density.reflected <- function(x,lower=-Inf, upper=Inf,...){
 #       x: a numeric vector of data values
 #       lower: lower limit of the interval to which x belongs to
 #       upper: upper limit of the interval to which x belongs to
+#       ...: further density arguments.
 #
 # OUTPUT:
 #       Object of the class density with borders correction
 #
 # OBSERVATIONS:
-#       To estimate the density the default option of function density is used
+#       To estimate the density the default option of fucntion density is used
 #
-   broad<-4*density(x=x)$bw # edge distance of observations to reflect: gaussian
+x<- na.omit(x)
+# Degenerate sample: all observations equal
+if (sd(x)==0){
+    dx <- density(c(x,x[1]+.Machine$double.eps,x[1]-.Machine$double.eps))
+} else {
+   argumentos <- list(...)
+          # edge distance of observations to reflect
+   if("bw" %in% names(argumentos)){
+       if(is.numeric(argumentos$bw)) broad<-4*argumentos$bw
+   } else{
+       broad <- 4*density(x,...)$bw
+   }
    if (is.infinite(lower) & is.infinite(upper)) {
-         dx <- density(x=x,...)
+         dx <- density(x,...)
    } else if (is.infinite(lower) & is.finite(upper)) {
      reflected<-which(x >= (upper-broad)) # Observations to reflect
      x.reflect<-c(x,2*upper-x[reflected])
-     dx <- density(x=x.reflect,...)
+     dx <- density(x.reflect,...)
      # Estimation is restricted to the interval
      dx$y<-(dx$y[dx$x>=lower & dx$x<=upper])
      dx$x<-(dx$x[dx$x>=lower & dx$x<=upper])
@@ -192,7 +204,7 @@ density.reflected <- function(x,lower=-Inf, upper=Inf,...){
    } else if (is.finite(lower) & is.infinite(upper)) {
      reflected<-which(x <= (lower+broad)) # Observations to reflect
      x.reflect<-c(x,-x[reflected]+2*lower)
-     dx <- density(x=x.reflect,...)
+     dx <- density(x.reflect,...)
      # Estimation is restricted to the interval
      dx$y<-dx$y[dx$x>=lower & dx$x<=upper]
      dx$x<-dx$x[dx$x>=lower & dx$x<=upper]
@@ -205,7 +217,7 @@ density.reflected <- function(x,lower=-Inf, upper=Inf,...){
      reflected.sup<-which(x >= (upper-broad))
      x.reflect<-c(x,-x[reflected.inf]+2*lower)
      x.reflect<-c(x.reflect,2*upper-x[reflected.sup])
-     dx <- density(x=x.reflect,...)
+     dx <- density(x.reflect,...)
      # Estimation is restricted to the interval
      dx$y<-dx$y[dx$x>=lower & dx$x<=upper]
      dx$x<-dx$x[dx$x>=lower & dx$x<=upper]
@@ -214,15 +226,16 @@ density.reflected <- function(x,lower=-Inf, upper=Inf,...){
      area.under <- sum(dx$y)*bw
      dx$y<-dx$y/area.under
    }
+}
 return(dx)
 }
 #................................................
 
 
-dgeometric.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, n.sim=100){
+dgeometric.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, n.sim=101, bw=NULL){
 # DESCRIPTION:
 #             Test to compare a theoretical distribution with an empirical kernel estimate
-#             The estadistic measures the distance (in area) between the empirical
+#             The estatistic measures the distance (in area) between the empirical
 #             kernel estimate and a theoretical density function
 #
 # INPUTS:
@@ -233,6 +246,9 @@ dgeometric.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, n.sim=1
 #        lower: lower end point of the support of the variable defined by fun.den, default -Inf
 #        upper: upper end point of the support of the variable defined by fun.den, default Inf
 #        n.sim: number of iterations performed to calculate the p.value, default 100
+#        bw: a numeric value giving the bandwidth to be used in the test, default NULL. If it
+#            is not provided, the bandwidth is not constant and is the one provided by the
+#            function density under hypothesis of a Gaussian kernel.
 #
 # OUTPUT:
 #       The output is an object of the class htest exactly like for the Kolmogorov-Smirnov
@@ -248,20 +264,35 @@ dgeometric.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, n.sim=1
 
    if (min(x)<lower || max(x)>upper){
       output <- list(statistic = Inf, p.value = 0, method = "Geometric test", iterations = 0, data.name = data.name)
-      warning("There is at least a sample value out of the theoretical support")
+      warning("There is at least a sample observation out of the theoretical support")
       return(output)
    }
 
    f<-fun.den
    if (length(par)!=0) f<-function(m) do.call(fun.den,c(list(m),par))
 
-   emp.density <- density.reflected(x, lower, upper) # Empirical density
+   if (is.null(bw)) bw <- density(x)$bw
+   emp.density <- density.reflected(x, lower, upper, bw=bw) # Empirical density
    statistic <- area.between(f, emp.density, lower, upper)
 
    # p.value estimate by simulation
    n.x<-length(x)
-   simulations <- replicate(n.sim, random.function(n=n.x, f=f, lower=lower, upper=upper))
-   density.sim<-apply(simulations, 2, density.reflected, lower=lower, upper=upper)
+   name.function <- deparse(substitute(fun.den))
+   if (nchar(name.function)==1){
+       name.function <- NULL
+   } else {
+       name.function <- paste("r",substr(name.function,2,nchar(name.function)),sep="")
+   }
+   if (is.null(name.function) || !exists(name.function, mode="function")){
+      simulations <- replicate(n.sim, random.function(n=n.x, f=f, lower=lower, upper=upper))
+   } else {
+      if (is.null(par)){
+          simulations <- replicate(n.sim,eval(do.call(name.function,list(n.x))))
+      } else {
+          simulations <- replicate(n.sim,eval(do.call(name.function,c(n.x,par))))
+      }
+   }
+   density.sim<-apply(simulations, 2, density.reflected, lower=lower, upper=upper, bw=bw)
    statistic.sim <- c(do.call("cbind",lapply(density.sim, area.between, f=f, lower=lower, upper=upper)))
    p.value<-sum(statistic.sim>statistic)/n.sim
    names( statistic ) <- "Tn"
@@ -272,7 +303,7 @@ dgeometric.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, n.sim=1
 #................................................
 
 
-fan.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, kernel="normal"){
+fan.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, kernel="normal", bw=NULL){
 # DESCRIPTION:
 #             Given a sample of a continuous univariate random variable and a density
 #             function fun.den (with suppot in the interval (lower, upper)), fan.test computes
@@ -289,7 +320,14 @@ fan.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, kernel="normal
 #                equation 12.28).
 #                Li, O. and Racine, J.F. (2007) Nonparametric Econometrics, Princeton
 #                                         University Press, New Jersey.
-#               -Tested using R version 2.15.3 and KernSmooth 2.23-8
+#               -Tested using R version 3.1.0 and KernSmooth 2.23-8
+#               -In its default option, the dpik function available in the library KernSmooth is used.
+#                The method for selecting the bandwidth of a kernel density estimate in dpik was proposed by
+#                Sheather and Jones (1991) and is described in Section 3.6 of Wand and Jones (1995).
+#               -Sheather, S. J. and Jones, M. C. (1991). A reliable data-based bandwidth
+#                                          selection method for kernel density estimation.
+#                                          Journal of the Royal Statistical Society, B, 53, 683–690.
+#               -Wand, M. P. and Jones, M. C. (1995). Kernel Smoothing. Chapman and Hall, London.
 #
 # INPUTS:
 #        x: a numeric vector of data values.
@@ -303,6 +341,9 @@ fan.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, kernel="normal
 #      	 kernel: character string with the kernel to be used, either "normal" (a N(0,1) density),
 #               "box" (a uniform in -1 to 1) or "epanech" (a Epanechnikov quadratic kernel), default
 #               "normal".
+#        bw: a numeric value giving the bandwidth to be used in the test. If it is not provided,
+#            the bandwidth is estimated from the data using the dpik function available in the
+#            library KernSmooth.
 #
 # OUTPUT:
 #       The output is an object of the class htest exactly like for the Kolmogorov-Smirnov
@@ -324,8 +365,12 @@ fan.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, kernel="normal
       return(output)
   }
 
-  require(KernSmooth)
-  h.min <- dpik(x,kernel=kernel)       # bandwidth
+  if (is.null(bw)){
+    #  require(KernSmooth)
+      h.min <- dpik(x,kernel=kernel)       # bandwidth
+  } else {
+      h.min <- bw
+  }
 
   f<-fun.den
   if (length(par)!=0) f<-function(m) do.call(fun.den,c(list(m),par))

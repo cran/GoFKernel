@@ -5,7 +5,7 @@
 Random Draw Generator
 }
 \description{
-This function generates random draws of a continuos random variable
+This function generates random draws of a continuous random variable
 given either its density or its cumulative distribution function.
 }
 \usage{
@@ -17,7 +17,7 @@ random.function(n = 1, f, lower = -Inf, upper = Inf, kind = "density")
   \item{f}{either a density (default) or cumulative distribution function of the random variable.}
   \item{lower}{lower limit of the support of the random variable, default -Inf.}
   \item{upper}{upper limit of the support of the random variable, default Inf.}
-  \item{kind}{character string with the kind of function used to identify the distribution.
+  \item{kind}{character string with the function used to identify the distribution,
    either "density" (default) or "cumulative", as alternative.}
 }
 \details{
@@ -29,17 +29,17 @@ cumulative distribution) function given by \code{f}.
 }
 
 \author{
-Jose M. pavia
+Jose M. Pavia
 }
 
 \note{
-\code{random.function} is called by \code{\link{dgeometric.test}} to generate random samples from the null
-hypothesis density function.
+\code{random.function} is called by \code{dgeometric.test} when the corresponding r-
+ function (random generator of \code{f}) is not available in the environment. \code{random.function}
+ generates random samples from the null hypothesis density function specified in \code{dgeometric.test}.
 }
 
 \seealso{
-\code{\link{dgeometric.test}},  \href{http://stat.ethz.ch/R-manual/R-patched/library/stats/html/integrate.html}{integrate},
- \code{\link{inverse}}  and  \code{\link{support.facto}}.
+\code{\link{dgeometric.test}}, \code{\link{integrate}}, \code{\link{inverse}} and \code{\link{support.facto}}.
 }
 \examples{
 f0 <- function(x) ifelse(x>=0 & x<=1, 2-2*x, 0)
