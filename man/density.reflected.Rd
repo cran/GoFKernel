@@ -57,11 +57,11 @@ Venables, W. N. and Ripley, B. D. (2002) "Modern Applied Statistics with S." New
 Jose M. Pavia
 }
 \note{
-The function is based on \code{\link{density}}.
+The function is based on \code{\link[stats]{density}}.
 }
 
 \seealso{
-\code{\link{dgeometric.test}} and \code{\link{density}}
+\code{\link{dgeometric.test}} and \code{\link[stats]{density}}
 }
 \examples{
 set.seed(234)
