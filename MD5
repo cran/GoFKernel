@@ -1,8 +1,8 @@
-4cbf84fed2a80220cf8a572e23da089e *DESCRIPTION
+12e587861297f3dde5592213011b6a1e *DESCRIPTION
 3d0061b69c2490b2fefde5783c45a65f *NAMESPACE
 ec446e8a95024fd1b1f43eac96093e2f *R/GoFKernel.r
 5e489f88ea328ac2b81f91b349dbfc23 *data/risk76.1929.rda
-e68b578a26444f58420ca6b32fbc03d1 *man/GoFKernel-package.Rd
+b4d48ec10585615d3c6aa7a0e5a2e124 *man/GoFKernel-package.Rd
 fbb549576cb78c65b63a8dc741c5e673 *man/area.between.Rd
 6723ca6f4b0bea5c3c29ba0dd8bf1767 *man/density.reflected.Rd
 d2e49780eb87a93190f925dcde7706d6 *man/dgeometric.test.Rd

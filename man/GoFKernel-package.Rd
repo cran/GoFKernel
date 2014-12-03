@@ -3,7 +3,7 @@
 \alias{GoFKernel}
 \docType{package}
 \title{
-GoFKernel: Testing Goodness-of-fit with the Kernel Density Estimator
+Testing Goodness-of-fit with the Kernel Density Estimator
 }
 \description{
 Tests of goodness-of-fit based on kernel smoothing of the data.
@@ -13,8 +13,8 @@ Tests of goodness-of-fit based on kernel smoothing of the data.
 Package: \tab GoFKernel\cr
 Depends: \tab R (>=2.17.3), \code{stats}, \code{KernSmooth} (>=2.23-8)\cr
 Type: \tab Package\cr
-Version: \tab 2.0-4\cr
-Date: \tab 2014-08-26\cr
+Version: \tab 2.0-5\cr
+Date: \tab 2014-12-03\cr
 License: \tab GPL\cr
 }
 The most important functions in \code{GoFKernel} are \code{\link{dgeometric.test}} and \code{\link{fan.test}}.
