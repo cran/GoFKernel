@@ -1,0 +1,19 @@
+citHeader("To cite GoFKernel in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Testing Goodness-of-Fit with the Kernel Density Estimator: {GoFKernel}",
+  author       = personList(as.person("Jose M. Pavia")),
+  journal      = "Journal of Statistical Software, Code Snippets",
+  year         = "2015",
+  volume       = "66",
+  number       = "1",
+  pages        = "1--27",
+  url          = "http://www.jstatsoft.org/v66/c01/",
+
+  textVersion  =
+  paste("Jose M. Pavia (2015).",
+        "Testing Goodness-of-Fit with the Kernel Density Estimator: GoFKernel.",
+        "Journal of Statistical Software, Code Snippets, 66(1), 1-27.",
+        "URL http://www.jstatsoft.org/v66/c01/.")
+)
+

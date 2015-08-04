@@ -49,7 +49,7 @@ A list containing the following components:
 \item{data.name}{a character string giving the name of the data.}
 }
 \references{
-Pavia, JM (2014) "Testing Goodness-of-fit with the Kernel Density Estimator: GoFKernel".
+Pavia, JM (2015) "Testing Goodness-of-fit with the Kernel Density Estimator: GoFKernel", Journal of Statistical Software, Code Snippets, 66(1), 1--27.
 }
 \author{
 Jose M. Pavia

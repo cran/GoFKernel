@@ -325,8 +325,8 @@ fan.test <- function(x, fun.den, par=NULL, lower=-Inf, upper=Inf, kernel="normal
 #                The method for selecting the bandwidth of a kernel density estimate in dpik was proposed by
 #                Sheather and Jones (1991) and is described in Section 3.6 of Wand and Jones (1995).
 #               -Sheather, S. J. and Jones, M. C. (1991). A reliable data-based bandwidth
-#                                          selection method for kernel density estimation.
-#                                          Journal of the Royal Statistical Society, B, 53, 683–690.
+#                              selection method for kernel density estimation.
+#                              Journal of the Royal Statistical Society, B, 53.
 #               -Wand, M. P. and Jones, M. C. (1995). Kernel Smoothing. Chapman and Hall, London.
 #
 # INPUTS:

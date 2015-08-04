@@ -13,8 +13,8 @@ Tests of goodness-of-fit based on kernel smoothing of the data.
 Package: \tab GoFKernel\cr
 Depends: \tab R (>=2.17.3), \code{stats}, \code{KernSmooth} (>=2.23-8)\cr
 Type: \tab Package\cr
-Version: \tab 2.0-5\cr
-Date: \tab 2014-12-03\cr
+Version: \tab 2.0-6\cr
+Date: \tab 2015-08-04\cr
 License: \tab GPL\cr
 }
 The most important functions in \code{GoFKernel} are \code{\link{dgeometric.test}} and \code{\link{fan.test}}.
@@ -30,7 +30,7 @@ Fan, Y (1994) "Testing the goodness-of-fit of a parametric density function by k
 
 Li, O. and Racine, J.F. (2007) "Nonparametric Econometrics", Princeton University Press, New Jersey.
 
-Pavia, JM (2014) "Testing Goodness-of-fit with the Kernel Density Estimator: GoFKernel".
+Pavia, JM (2015) "Testing Goodness-of-fit with the Kernel Density Estimator: GoFKernel", Journal of Statistical Software, Code Snippets, 66(1), 1--27.
 }
 
 \keyword{ package }

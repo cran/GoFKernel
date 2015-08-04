@@ -54,7 +54,8 @@ see Li and Racine (2007, pp.380-1) for details.
 
 
 \references{
-Fan, Y (1994) "Testing the goodness-of-fit of a parametric density function by kernel method", Econometric Theory, 10, 316-356.
+Fan, Y (1994) "Testing the goodness-of-fit of a parametric density function by kernel method", Econometric Theory, 10, 316--356.
+
 Li, O. and Racine, J.F. (2007) "Nonparametric Econometrics", Princeton niversity Press, New Jersey.
 }
 \author{

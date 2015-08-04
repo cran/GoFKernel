@@ -1,14 +1,14 @@
 Package: GoFKernel
 Type: Package
-Title: Testing Goodness-of-fit with the Kernel Density Estimator
-Version: 2.0-5
-Date: 2014-12-03
+Title: Testing Goodness-of-Fit with the Kernel Density Estimator
+Version: 2.0-6
+Date: 2015-08-04
 Author: Jose M. Pavia
 Maintainer: Jose M. Pavia <Jose.M.Pavia@uv.es>
-Description: Tests of goodness-of-fit based on kernel smoothing of the data
-Depends: KernSmooth
+Description: Tests of goodness-of-fit based on a kernel smoothing of the data.
+Depends: stats, KernSmooth
 License: GPL
-Packaged: 2014-12-03 19:40:46 UTC; Jose Manuel
+Packaged: 2015-08-04 11:30:10 UTC; Jose Manuel
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-12-04 00:31:42
+Date/Publication: 2015-08-04 17:18:46

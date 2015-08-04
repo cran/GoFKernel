@@ -1,4 +1,4 @@
 export(dgeometric.test, fan.test, inverse, support.facto, density.reflected, area.between, random.function, risk76.1929)
-importFrom(stats, density, integrate, optim, uniroot)
+importFrom(stats, density, integrate, optim, uniroot, dnorm, na.omit, pnorm, runif, sd)
 importFrom(KernSmooth, dpik)
 S3method(density,reflected)
