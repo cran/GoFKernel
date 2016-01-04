@@ -10,12 +10,14 @@ The function \code{density.reflected} computes kernel density estimates for univ
 
 }
 \usage{
-\method{density}{reflected}(x, lower = -Inf, upper = Inf, ...)
+\method{density}{reflected}(x, lower = -Inf, upper = Inf, weights= NULL, ...)
 }
 \arguments{
   \item{x}{a numeric vector of data from which the estimate is to be computed.}
-  \item{lower}{the lower limit of the interval to which x theoretically constrained, default -Inf.}
-  \item{upper}{the upper limit of the interval to which x theoretically constrained, default, Inf.}
+  \item{lower}{the lower limit of the interval to which x is theoretically constrained, default -Inf.}
+  \item{upper}{the upper limit of the interval to which x is theoretically constrained, default, Inf.}
+  \item{weights}{numeric vector of non-negative observation weights, hence of same length as x.
+                 The default NULL is equivalent to weights = rep(1/length(x), length(x)).}
   \item{\dots}{further \code{density} arguments.}
 }
 \details{

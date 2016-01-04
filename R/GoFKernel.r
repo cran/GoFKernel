@@ -1,6 +1,6 @@
-# GoFKernel version 2.0-1
-# July 2014 - Jose M. Pavia
-# Tested in R version 3.1.0
+# GoFKernel version 2.1-0
+# January 2016 - Jose M. Pavia
+# Tested in R version 3.3.2
 # The  fan.test function depends on KernSmooth package
 #
 # FUNCTIONS:
@@ -160,7 +160,7 @@ area.between <- function(f, kernel.density, lower=-Inf, upper=Inf){
 #................................................
 
 
-density.reflected <- function(x, lower=-Inf, upper=Inf, ...){
+density.reflected <- function(x, lower=-Inf, upper=Inf, weights=NULL, ...){
 # DESCRIPTION: function to compute from a random sample of data in an interval
 #              a kernel estimate using reflection in the borders
 #
@@ -176,24 +176,37 @@ density.reflected <- function(x, lower=-Inf, upper=Inf, ...){
 # OBSERVATIONS:
 #       To estimate the density the default option of fucntion density is used
 #
-x<- na.omit(x)
+mantener<- !is.na(x)
+x <- x[mantener]
+if (upper < max(x)) warning("There are values in the sample higher than the upper limit")
+if (lower > min(x)) warning("There are values in the sample smaller than the lower limit")
 # Degenerate sample: all observations equal
 if (sd(x)==0){
     dx <- density(c(x,x[1]+.Machine$double.eps,x[1]-.Machine$double.eps))
 } else {
+   # weights
+   if(is.null(weights)){
+      pesos <- rep(1/length(x),length(x))
+   } else {
+      pesos <- weights[mantener]
+   }
    argumentos <- list(...)
           # edge distance of observations to reflect
    if("bw" %in% names(argumentos)){
        if(is.numeric(argumentos$bw)) broad<-4*argumentos$bw
-   } else{
-       broad <- 4*density(x,...)$bw
+   } else {
+       pesos <- pesos/sum(pesos)
+       broad <- 4*density(x,weights=pesos,...)$bw
    }
+   # density
    if (is.infinite(lower) & is.infinite(upper)) {
-         dx <- density(x,...)
+         dx <- density(x, weights=pesos, ...)
    } else if (is.infinite(lower) & is.finite(upper)) {
      reflected<-which(x >= (upper-broad)) # Observations to reflect
      x.reflect<-c(x,2*upper-x[reflected])
-     dx <- density(x.reflect,...)
+     p.reflect<-c(pesos,pesos[reflected])
+     p.reflect <- p.reflect/sum(p.reflect)
+     dx <- density(x.reflect, weights=p.reflect, ...)
      # Estimation is restricted to the interval
      dx$y<-(dx$y[dx$x>=lower & dx$x<=upper])
      dx$x<-(dx$x[dx$x>=lower & dx$x<=upper])
@@ -204,7 +217,9 @@ if (sd(x)==0){
    } else if (is.finite(lower) & is.infinite(upper)) {
      reflected<-which(x <= (lower+broad)) # Observations to reflect
      x.reflect<-c(x,-x[reflected]+2*lower)
-     dx <- density(x.reflect,...)
+     p.reflect<-c(pesos,pesos[reflected])
+     p.reflect <- p.reflect/sum(p.reflect)
+     dx <- density(x.reflect, weights=p.reflect, ...)
      # Estimation is restricted to the interval
      dx$y<-dx$y[dx$x>=lower & dx$x<=upper]
      dx$x<-dx$x[dx$x>=lower & dx$x<=upper]
@@ -216,8 +231,11 @@ if (sd(x)==0){
      reflected.inf<-which(x <= (lower+broad)) # Observations to reflect
      reflected.sup<-which(x >= (upper-broad))
      x.reflect<-c(x,-x[reflected.inf]+2*lower)
+     p.reflect<-c(pesos,pesos[reflected.inf])
      x.reflect<-c(x.reflect,2*upper-x[reflected.sup])
-     dx <- density(x.reflect,...)
+     p.reflect<-c(p.reflect,pesos[reflected.sup])
+     p.reflect <- p.reflect/sum(p.reflect)
+     dx <- density(x.reflect, weights=p.reflect, ...)
      # Estimation is restricted to the interval
      dx$y<-dx$y[dx$x>=lower & dx$x<=upper]
      dx$x<-dx$x[dx$x>=lower & dx$x<=upper]
