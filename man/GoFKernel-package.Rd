@@ -13,8 +13,8 @@ Tests of goodness-of-fit based on kernel smoothing of the data.
 Package: \tab GoFKernel\cr
 Depends: \tab R (>=2.17.3), \code{stats}, \code{KernSmooth} (>=2.23-8)\cr
 Type: \tab Package\cr
-Version: \tab 2.0-6\cr
-Date: \tab 2015-08-04\cr
+Version: \tab 2.1-1\cr
+Date: \tab 2018-05-26\cr
 License: \tab GPL\cr
 }
 The most important functions in \code{GoFKernel} are \code{\link{dgeometric.test}} and \code{\link{fan.test}}.
